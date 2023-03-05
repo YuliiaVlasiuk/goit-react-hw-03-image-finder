@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import css from './Searchbar.module.css';
+import Notiflix from 'notiflix';
 
 export class Searchbar extends Component {
   state = {
@@ -12,9 +13,11 @@ export class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (!this.state.value) {
-      return console.log('error');
-    }
+    if (!this.state.value)
+      return  Notiflix.Notify.failure(
+        "insert word for searching.")
+       
+  
     this.props.onSearch(this.state.value);
     this.setState({ value: '' });
   };
@@ -40,3 +43,12 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Notiflix.Notify.init({
+  position: 'right-top',
+  width: '300px',
+  distance: '10px',
+  opacity: 1,
+  rtl: false,
+  timeout: 500,
+});
