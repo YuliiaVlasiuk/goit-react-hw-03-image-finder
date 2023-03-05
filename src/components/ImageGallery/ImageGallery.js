@@ -1,6 +1,6 @@
 import { Component } from 'react';
-
 import { MagnifyingGlass } from 'react-loader-spinner';
+import { Modal } from 'components/Modal/Modal';
 
 import css from './ImageGallery.module.css';
 
@@ -14,9 +14,17 @@ export class ImageGallery extends Component {
     page: 1,
     loading: false,
     buttonVisial: false,
+    showModal: false,
+    largeImageUrl: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
+   
+    if (
+      prevProps.value !== this.props.value 
+    ) {this.setState({ gallery: [] });
+        }
+   
     if (
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
@@ -41,6 +49,18 @@ export class ImageGallery extends Component {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
 
+  getLargeImgUrl = imgUrl => {
+    this.setState({ largeImageUrl: imgUrl });
+    // console.log("должен поменяться шоу");
+    // console.log(this.state.showModal);
+    this.toggleModal();
+  };
+
+  toggleModal = () => {
+    // console.log("должен поменяться шоу");
+    this.setState({ showModal: !this.state.showModal });
+  };
+
   render() {
     return (
       <>
@@ -58,18 +78,21 @@ export class ImageGallery extends Component {
         )}
 
         <ul className={css.gallery} onClick={this.toggleModal}>
-          <ImageGalleryItem gallery={this.state.gallery} />
+          <ImageGalleryItem
+            gallery={this.state.gallery}
+            onClickImg={this.getLargeImgUrl}
+          />
         </ul>
 
-        {this.state.buttonVisial && (
+        { (this.state.buttonVisial && (this.state.gallery.length>0)) &&(
           <button className={css.buttonLoad} onClick={this.handleLoadMore}>
             Load more
           </button>
         )}
-        {/*        
-         {this.state.showModal&& <Modal onClose={this.toggleModal}>
-          <h2>iusfiaebfinepkd</h2>
-          </Modal>} */}
+
+        {this.state.showModal && (
+          <Modal imgUrl={this.state.largeImageUrl} onClose={this.toggleModal} />
+        )}
       </>
     );
   }

@@ -13,16 +13,11 @@ export class App extends Component {
   handleSubmit = textSearch => {
     this.setState({ textSearch });
   };
-
-
-
-
   render() {
     return (
       <div>
-        <Searchbar onSearch={this.handleSubmit} />
-      <ImageGallery value={this.state.textSearch} />
-    
+       <Searchbar onSearch={this.handleSubmit} />
+       <ImageGallery value={this.state.textSearch} />
       </div>
     );
   }

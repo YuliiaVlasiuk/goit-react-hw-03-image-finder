@@ -50,5 +50,5 @@ Notiflix.Notify.init({
   distance: '10px',
   opacity: 1,
   rtl: false,
-  timeout: 500,
+  timeout: 1000,
 });
