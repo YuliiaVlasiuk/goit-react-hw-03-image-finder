@@ -1,5 +1,7 @@
 import { Component } from 'react';
 
+import { MagnifyingGlass } from  'react-loader-spinner'
+
 import css from './ImageGallery.module.css';
 
 import { getGallery } from '../../services/getGallery';
@@ -24,7 +26,8 @@ export class ImageGallery extends Component {
         .then(gallery => this.setState({ gallery: gallery.hits }))
         .catch(error => {
           console.log('error :>> ', error);
-        });
+        })
+        .finally(()=>this.setState({loading:false}))
     }
   }
 
@@ -34,9 +37,24 @@ export class ImageGallery extends Component {
 
   render() {
     return (
+        <>
+       {this.state.loading&&
+        <MagnifyingGlass
+          visible={true}
+          height="60"
+          width="60"
+          ariaLabel="MagnifyingGlass-loading"
+          wrapperStyle={{}}
+          wrapperClass="MagnifyingGlass-wrapper"
+          glassColor="#c0efff"
+          color="#808080"
+        />
+  }
+
       <ul className={css.gallery}>
         <ImageGalleryItem gallery={this.state.gallery} />
       </ul>
+      </>
     );
   }
 }
